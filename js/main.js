@@ -44,7 +44,7 @@ let makingListComments = function () {
   let photoComments = creationArray(generateNumber(1, 6), 7);
   let newphotoComments = [];
   for (let i = 0; i < photoComments.length; i++) {
-    newphotoComments[i] = comments[photoComments[i] - 1];
+    newphotoComments[i] = {text: comments[photoComments[i] - 1], avatar: 'img/avatar-' + generateNumber(1, 7) + '.svg', name: namesAvatars[generateNumber(0, 6)]};
   }
   return newphotoComments;
 };
@@ -58,8 +58,10 @@ for (let i = 0; i < 25; i++) {
 // Конец создания
 
 for (let i = 0; i < 25; i++) {
-  photos[i] = {url: 'photos/' + imageNumbers[i] + '.jpg', description: 'none', likes: generateNumber(15, 201), comments: photosComments[i].length, avatar: 'img/avatar-' + generateNumber(1, 7) + '.svg', name: namesAvatars[generateNumber(0, 6)]};
+  photos[i] = {url: 'photos/' + imageNumbers[i] + '.jpg', description: 'none', likes: generateNumber(15, 201), comments: photosComments[i].length};
 }
+
+// Создание DOM элемента и наполнение блока DOM элементами.
 
 let creatingPhotoBlock = function (photo) {
   let photoElement = similarWizardTemplate.cloneNode(true);
@@ -79,3 +81,50 @@ let creatingGroupPictures = function (collection) {
 };
 
 setupPictureList.appendChild(creatingGroupPictures(photos));
+
+// Конец создания DOM
+
+// Выводим 1 фото на экран в большом формате
+
+let bigPicture = document.querySelector('.big-picture');
+let bigPictureImg = bigPicture.querySelector('.big-picture__img');
+let likesCount = bigPicture.querySelector('.likes-count');
+let commentsCount = bigPicture.querySelector('.comments-count');
+let socialComments = bigPicture.querySelector('.social__comments');
+let socialCommentCount = bigPicture.querySelector('.social__comment-count');
+let commentsLoader = bigPicture.querySelector('.comments-loader');
+let socialCaption = bigPicture.querySelector('.social__caption');
+
+document.body.classList.add('modal-open');
+socialCaption.textContent = photos[0].description;
+socialCommentCount.classList.add('hidden');
+commentsLoader.classList.add('hidden');
+bigPicture.classList.remove('hidden');
+bigPictureImg.querySelector('img').src = photos[0].url;
+likesCount.textContent = photos[0].likes;
+commentsCount.textContent = photos[0].comments;
+
+// Копируем блок с коментариями для фото
+
+let socialCommentItem = socialComments.querySelector('.social__comment').cloneNode(true);
+
+// Удаляем старые коминты к фото
+
+let children = socialComments.children;
+
+for (let i = children.length - 1; i >= 0; i--) {
+  var child = children[i];
+
+  child.parentElement.removeChild(child);
+}
+
+// Множим блоки с коминтами в зависимости от их количество
+
+for (let i = 0; i < photos[0].comments; i++) {
+  let socialCommentItemDubl = socialCommentItem.cloneNode(true);
+  socialCommentItemDubl.querySelector('img').src = photosComments[0][i].avatar;
+  socialCommentItemDubl.querySelector('img').alt = photosComments[0][i].name;
+  socialCommentItemDubl.querySelector('p').textContent = photosComments[0][i].text;
+
+  socialComments.appendChild(socialCommentItemDubl);
+}
