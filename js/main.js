@@ -96,15 +96,43 @@ let socialComments = bigPicture.querySelector('.social__comments');
 let socialCommentCount = bigPicture.querySelector('.social__comment-count');
 let commentsLoader = bigPicture.querySelector('.comments-loader');
 let socialCaption = bigPicture.querySelector('.social__caption');
+let picturesBlock = document.querySelector('.pictures');
+let pictures = picturesBlock.querySelectorAll('.picture');
 
-document.body.classList.add('modal-open');
 socialCaption.textContent = photos[0].description;
 socialCommentCount.classList.add('hidden');
 commentsLoader.classList.add('hidden');
-bigPicture.classList.remove('hidden');
-bigPictureImg.querySelector('img').src = photos[0].url;
 likesCount.textContent = photos[0].likes;
 commentsCount.textContent = photos[0].comments;
+
+// Делегирование фото при всплытии на большой формат
+
+let onImageChangeClic = function (evt) {
+  if (evt.target && evt.target.matches('img[class="picture__img"]')) {
+    bigPicture.classList.remove('hidden');
+    bigPictureImg.querySelector('img').src = evt.target.src;
+  }
+};
+
+picturesBlock.addEventListener('click', onImageChangeClic);
+
+// Добавляем фото на большой формат с помощью клавы Enter
+
+let onImageChangeEnt = function (evt) {
+  if (evt.keyCode === 13) {
+    for (let i = 0; i < pictures.length; i++) {
+      let picture = pictures[i];
+      if (picture === document.activeElement) {
+        bigPicture.classList.remove('hidden');
+        bigPictureImg.querySelector('img').src = picture.querySelector('img').src;
+        break;
+      }
+    }
+  }
+
+};
+
+picturesBlock.addEventListener('keydown', onImageChangeEnt);
 
 // Копируем блок с коментариями для фото
 
@@ -120,7 +148,7 @@ for (let i = children.length - 1; i >= 0; i--) {
   child.parentElement.removeChild(child);
 }
 
-// Множим блоки с коминтами в зависимости от их количество
+// Множим блоки с коминтами в зависимости от их количества
 
 for (let i = 0; i < photos[0].comments; i++) {
   let socialCommentItemDubl = socialCommentItem.cloneNode(true);
@@ -194,7 +222,6 @@ buttonCancelPopapImgUpload.addEventListener('click', function () {
 // Делегирование - выбор эффекта для фото.
 
 let effectsList = document.querySelector('.effects__list');
-// let effectInputs = effectsList.querySelectorAll('input[type="radio"]');
 let imgUploadPreview = imgUploadOverlay.querySelector('.img-upload__preview');
 let effectLevel = imgUploadOverlay.querySelector('.effect-level');
 let arrayClass = [{nameKl: 'effects__preview--chrome', effectLevel: 'grayscale', calculated: 1 / 100, unit: ''},
