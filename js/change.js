@@ -17,6 +17,8 @@
       return searchItem;
     };
 
+    document.querySelector('input[name="effect-level"]').value = percent;
+
     if (window.className === 'effects__preview--heat') {
       window.imgUploadPreview.querySelector('img').style.filter = seqrchCopy(window.className).effectLevel + '(' + ((seqrchCopy(window.className).calculated * percent) + 1) + seqrchCopy(window.className).unit + ')';
     } else {

@@ -12,10 +12,17 @@
   let effectLevelDepth = document.querySelector('.effect-level__depth');
   let className;
 
+  window.SCALE_FOTO = 1;
+
   window.imgUploadPreview = imgUploadPreview;
   window.className = className;
+  window.effectLevelPin = effectLevelPin;
+  window.effectLevelDepth = effectLevelDepth;
+  window.effectLevel = effectLevel;
 
   effectLevel.classList.add('hidden');
+
+  // Функция переключения эффектов
 
   let onEffectChange = function (evt) {
     if (evt.target && evt.target.matches('input[type="radio"]')) {
@@ -40,4 +47,37 @@
 
   // Запускаем функцию слайдера для изменения эффекта
   window.slaider(effectLevelPin, effectLevelLine, effectLevelDepth);
+
+  // Функция измененя масштаба изображения
+
+  let imgUploadScale = window.imgUploadOverlay.querySelector('.img-upload__scale');
+  let scaleControlSmaller = imgUploadScale.querySelector('.scale__control--smaller');
+  let scaleControlBigger = imgUploadScale.querySelector('.scale__control--bigger');
+  let scaleControlValue = document.querySelector('input[name="scale"]');
+
+  scaleControlValue.value = '100%';
+
+  let onScaleDown = function () {
+    if (window.SCALE_FOTO <= 0.25) {
+      scaleControlSmaller.removeEventListener('click', onScaleDown);
+    } else {
+      window.SCALE_FOTO -= 0.25;
+      scaleControlValue.value = (window.SCALE_FOTO * 100) + '%';
+      scaleControlBigger.addEventListener('click', onScaleAdd);
+      window.imgUploadPreview.querySelector('img').style.transform = 'scale(' + window.SCALE_FOTO + ')';
+    }
+  };
+
+  let onScaleAdd = function () {
+    if (window.SCALE_FOTO > 0.75) {
+      scaleControlBigger.removeEventListener('click', onScaleAdd);
+    } else {
+      window.SCALE_FOTO += 0.25;
+      scaleControlValue.value = (window.SCALE_FOTO * 100) + '%';
+      scaleControlSmaller.addEventListener('click', onScaleDown);
+      window.imgUploadPreview.querySelector('img').style.transform = 'scale(' + window.SCALE_FOTO + ')';
+    }
+  };
+  scaleControlSmaller.addEventListener('click', onScaleDown);
+  scaleControlBigger.addEventListener('click', onScaleAdd);
 })();

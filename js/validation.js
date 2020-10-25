@@ -71,40 +71,53 @@
       return option;
     };
 
-    if (!input.value.match(/^#[A-Za-zА-ЯЁа-яё0-9_]+/g)) {
-      input.setCustomValidity('В начале хеш-тега должна стаять - # или не хватает символа');
+    if (input.value.match(/^(?! )/) === null) {
+      input.setCustomValidity('Уберите пробелы в начале строки');
     } else {
-      if (countingSymbols(/#/g).length === 1) {
-        if (!input.value.match(/^#/g)) {
-          input.setCustomValidity('В начале хеш-тега должно стаять - #');
-        } else if (!input.value.match(/^#[A-Za-zА-ЯЁа-яё0-9_]+/g)) {
-          input.setCustomValidity('Хеш-тег меньше двух символов');
-        } else if (input.value.match(/[A-Za-zА-ЯЁа-яё0-9_]+\s[A-Za-zА-ЯЁа-яё0-9_]+/g)) {
-          input.setCustomValidity('Хеш-тег не может содержать пробелов');
-        } else if (countingSymbols(/[A-Za-zА-ЯЁа-яё0-9_]/g).length > 20) {
-          input.setCustomValidity('Хеш-тег не может быть длиннее 20 символов.');
+      if (input.value) {
+        if (!input.value.match(/^#[A-Za-zА-ЯЁа-яё0-9_]+/g)) {
+          input.setCustomValidity('Нет хеш-тега.');
         } else {
-          input.setCustomValidity('');
+          if (countingSymbols(/#/g).length === 1) {
+            if (!input.value.match(/^#/g)) {
+              input.setCustomValidity('В начале хеш-тега должно стаять - #');
+            } else if (!input.value.match(/^#[A-Za-zА-ЯЁа-яё0-9_]+/g)) {
+              input.setCustomValidity('Хеш-тег меньше двух символов');
+            } else if (input.value.match(/[A-Za-zА-ЯЁа-яё0-9_]+\s[A-Za-zА-ЯЁа-яё0-9_]+/g)) {
+              input.setCustomValidity('Хеш-тег не может содержать пробелов');
+            } else if (countingSymbols(/[A-Za-zА-ЯЁа-яё0-9_]/g).length > 20) {
+              input.setCustomValidity('Хеш-тег не может быть длиннее 20 символов.');
+            } else {
+              input.setCustomValidity('');
+            }
+          } else {
+            if (input.value.match(/##/g)) {
+              input.setCustomValidity('Разделите ##');
+            } else if (input.value.match(/[A-Za-zА-ЯЁа-яё0-9_]+#/g)) {
+              input.setCustomValidity('Хеш-теги не разделены пробелами');
+            } else if (countingSymbols(/#/g).length > 5) {
+              input.setCustomValidity('Хеш-тегов не может быть больше пяти.');
+            } else if (shortArrayHashtags(/([A-Za-zА-ЯЁа-яё0-9_]+)/g) === false) {
+              input.setCustomValidity('Хеш-тег не может состоять из одной #');
+            } else if (spaceInHashtags(/(\s[A-Za-zА-ЯЁа-яё0-9_])(?:\s$)?/g) === false) {
+              input.setCustomValidity('В хеш-теге пробел недопустим.');
+            } else if (longArrayHashtags(19) === false) {
+              input.setCustomValidity('Хеш-тег не может состоять больше 20 символов.');
+            } else if (cloneArrayHashtags() === false) {
+              input.setCustomValidity('У Вас одинаковые хеш-теги.');
+            } else {
+              input.setCustomValidity('');
+            }
+          }
         }
       } else {
-        if (input.value.match(/##/g)) {
-          input.setCustomValidity('Разделите ##');
-        } else if (input.value.match(/[A-Za-zА-ЯЁа-яё0-9_]+#/g)) {
-          input.setCustomValidity('Хеш-теги не разделены пробелами');
-        } else if (countingSymbols(/#/g).length > 5) {
-          input.setCustomValidity('Хеш-тегов не может быть больше пяти.');
-        } else if (shortArrayHashtags(/([A-Za-zА-ЯЁа-яё0-9_]+)/g) === false) {
-          input.setCustomValidity('Хеш-тег не может состоять из одной #');
-        } else if (spaceInHashtags(/(\s[A-Za-zА-ЯЁа-яё0-9_])(?:\s$)?/g) === false) {
-          input.setCustomValidity('В хеш-теге пробел недопустим.');
-        } else if (longArrayHashtags(19) === false) {
-          input.setCustomValidity('Хеш-тег не может состоять больше 20 символов.');
-        } else if (cloneArrayHashtags() === false) {
-          input.setCustomValidity('У Вас одинаковые хеш-теги.');
-        } else {
-          input.setCustomValidity('');
-        }
+        input.setCustomValidity('');
       }
+    }
+    if (!input.validity.valid) {
+      input.style.outlineColor = 'red';
+    } else {
+      input.style.outlineColor = 'highlight';
     }
   });
 
@@ -114,7 +127,7 @@
     let input = evt.target;
     let lengthComment = input.value.split('');
     if (lengthComment.length > 140) {
-      input.setCustomValidity('Комментарии не может состоять больше 140 символов.');
+      input.setCustomValidity('Комментарий не может состоять больше 140 символов.');
     } else {
       input.setCustomValidity('');
     }
