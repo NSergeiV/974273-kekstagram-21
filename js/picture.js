@@ -24,23 +24,19 @@
     setupPictureList.appendChild(fragment);
   };
 
-  // Блок вывода на страницу ошибок при обращении к серверу
+  // Блок вывода на страницу ошибок при загрузке с сервера
 
   let node = document.createElement('div');
+  let mainBody = document.querySelector('main');
   let errorHandler = function (errorMessage) {
-    node.classList.add('errorBlock');
-
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red; width: 50%;';
-    node.style.position = 'absolute';
-    node.style.left = 25 + '%';
-    node.style.top = 40 + '%';
-    node.style.fontSize = '30px';
-
+    node.classList.add('error');
+    node.style = 'align-items: center;';
     node.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
+    mainBody.insertAdjacentElement('afterbegin', node);
   };
 
   // Конец блока ошибок
 
+  // Запрос данных с сервера
   window.backend.load(creatingCollectionPictures, errorHandler);
 })();
