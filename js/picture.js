@@ -3,9 +3,9 @@
 // Создание DOM элемента и наполнение блока DOM элементами.
 
 (function () {
-  const MAX_PHOTOS_COUNT = 25;
+  // const MAX_PHOTOS_COUNT = 25;
   let similarWizardTemplate = document.querySelector('#picture').content.querySelector('.picture');
-  let setupPictureList = document.querySelector('.pictures');
+  window.setupPictureList = document.querySelector('.pictures');
 
   let creatingPhotoBlock = function (photo) {
     let photoElement = similarWizardTemplate.cloneNode(true);
@@ -16,27 +16,12 @@
     return photoElement;
   };
 
-  let creatingCollectionPictures = function (collections) {
+  window.creatingCollectionPictures = function (collections, photosCount) {
+
     let fragment = document.createDocumentFragment();
-    for (let i = 0; i < MAX_PHOTOS_COUNT; i++) {
+    for (let i = 0; i < photosCount; i++) {
       fragment.appendChild(creatingPhotoBlock(collections[i]));
     }
-    setupPictureList.appendChild(fragment);
+    window.setupPictureList.appendChild(fragment);
   };
-
-  // Блок вывода на страницу ошибок при загрузке с сервера
-
-  let node = document.createElement('div');
-  let mainBody = document.querySelector('main');
-  let errorHandler = function (errorMessage) {
-    node.classList.add('error');
-    node.style = 'align-items: center;';
-    node.textContent = errorMessage;
-    mainBody.insertAdjacentElement('afterbegin', node);
-  };
-
-  // Конец блока ошибок
-
-  // Запрос данных с сервера
-  window.backend.load(creatingCollectionPictures, errorHandler);
 })();

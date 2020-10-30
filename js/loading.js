@@ -74,16 +74,11 @@
 
   // Отправка формы на сервер
 
-  let errorHandler = function () {
-    window.closePopapImgUpload();
-    window.popapTemplate('#error', '.error', '.error__button');
-  };
-
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.backend.save(new FormData(form), function () {
       closePopapImgUpload();
       window.popapTemplate('#success', '.success', '.success__button');
-    }, errorHandler);
+    }, window.pushErrorHandler);
   });
 })();
