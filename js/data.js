@@ -19,7 +19,7 @@
 
   // Функция создания массивов со случайными числами без повторяющихся чисел
 
-  let creationArray = function (numberLength, numberMax) {
+  window.creationArray = function (numberLength, numberMax) {
     let arrayNew = [];
     while (arrayNew.length < numberLength) {
       let randomNamber = generateNumber(1, numberMax);
@@ -39,12 +39,12 @@
 
   // Создаем массивы для фото и комментариев
 
-  let imageNumbers = creationArray(25, 26);
+  let imageNumbers = window.creationArray(25, 26);
 
   // это для комментариев, функция и массив к каждому фото
 
   let makingListComments = function () {
-    let photoComments = creationArray(generateNumber(1, 6), 7);
+    let photoComments = window.creationArray(generateNumber(1, 6), 7);
     let newphotoComments = [];
     for (let i = 0; i < photoComments.length; i++) {
       newphotoComments[i] = {text: comments[photoComments[i] - 1], avatar: 'img/avatar-' + generateNumber(1, 7) + '.svg', name: namesAvatars[generateNumber(0, 6)]};
