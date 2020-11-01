@@ -17,11 +17,13 @@
   };
 
   window.creatingCollectionPictures = function (collections, photosCount) {
+    window.endCollections = collections;
 
     let fragment = document.createDocumentFragment();
     for (let i = 0; i < photosCount; i++) {
       fragment.appendChild(creatingPhotoBlock(collections[i]));
     }
     window.setupPictureList.appendChild(fragment);
+    window.pictures = window.picturesBlock.querySelectorAll('.picture');
   };
 })();
