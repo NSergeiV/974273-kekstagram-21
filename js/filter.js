@@ -6,18 +6,14 @@
   const MAX_PHOTOS_COUNT = 25;
   const MIN_PHOTOS_COUNT = 10;
   const imgFilters = document.querySelector('.img-filters');
-  // const imgFiltersButtonActive = imgFilters.querySelector('.img-filters__button--active');
-  // const filterRandom = imgFilters.querySelector('#filter-random');
-  // const filterDiscussed = imgFilters.querySelector('#filter-discussed');
   const imgFiltersForm = imgFilters.querySelector('.img-filters__form');
   let collections = [];
   let collectionsCopy = [];
 
-  imgFilters.classList.remove('img-filters--inactive');
-
   window.successHandler = function (data) {
     collections = data;
     window.creatingCollectionPictures(collections, MAX_PHOTOS_COUNT);
+    imgFilters.classList.remove('img-filters--inactive');
   };
 
   // Функция очистки страницы только от фотографий

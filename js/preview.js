@@ -12,6 +12,10 @@
   let socialCommentCount = bigPicture.querySelector('.social__comment-count');
   let buttonCommentsLoader = bigPicture.querySelector('.social__comments-loader');
   let picturesBlock = document.querySelector('.pictures');
+  let likesCount = bigPicture.querySelector('.likes-count');
+  let socialHeader = bigPicture.querySelector('.social__header');
+  let socialPicture = socialHeader.querySelector('.social__picture');
+  let socialCaption = socialHeader.querySelector('.social__caption');
   window.picturesBlock = picturesBlock;
 
   // Копируем блок с коментариями для фото
@@ -29,15 +33,16 @@
 
   // Множим блоки с комминтами в зависимости от их количества
   let sourceСomments = [];
+  let sourceСommentsCopy = [];
   let modul = 0;
   const photoСomments = function () {
     // Переносит элементы одного массива в другой
-    let bankComments = sourceСomments.splice(-5);
+    let bankComments = sourceСommentsCopy.splice(0, 5);
 
     // Данная переменная выводит на страницу количество показанных комментариев
     modul = modul + bankComments.length;
     socialCommentCount.querySelector('.comments-count-here').textContent = modul;
-    if (sourceСomments.length === 0) {
+    if (sourceСommentsCopy.length === 0) {
       buttonCommentsLoader.classList.add('hidden');
     }
 
@@ -49,6 +54,11 @@
 
       socialComments.appendChild(socialCommentItemDubl);
     }
+  };
+
+  const copyingArray = function () {
+    sourceСommentsCopy = sourceСomments.slice();
+    photoСomments();
   };
 
   // Открытие попап выбранной фотографии для просмотра в увеличенном формате
@@ -67,8 +77,11 @@
     window.endCollections.filter(function (element) {
       if (element.url === choice[0]) {
         socialCommentCount.querySelector('.comments-count').textContent = element.comments.length;
+        likesCount.textContent = element.likes;
+        socialPicture.src = element.url;
+        socialCaption.textContent = element.description;
         sourceСomments = element.comments;
-        photoСomments();
+        copyingArray();
       }
     });
   };

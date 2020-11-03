@@ -3,7 +3,7 @@
 (function () {
 
   // Рандомная функция
-  let generateNumber = function (min, max) {
+  const generateNumber = function (min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
