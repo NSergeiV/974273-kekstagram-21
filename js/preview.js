@@ -12,12 +12,14 @@
   let socialCommentCount = bigPicture.querySelector('.social__comment-count');
   let buttonCommentsLoader = bigPicture.querySelector('.social__comments-loader');
   let picturesBlock = document.querySelector('.pictures');
+  let likesCount = bigPicture.querySelector('.likes-count');
+  let socialHeader = bigPicture.querySelector('.social__header');
+  let socialPicture = socialHeader.querySelector('.social__picture');
+  let socialCaption = socialHeader.querySelector('.social__caption');
   window.picturesBlock = picturesBlock;
 
-  // Копируем блок с коментариями для фото
   let socialCommentItem = socialComments.querySelector('.social__comment').cloneNode(true);
 
-  // Удаляем старые коминты к фото
   const clearСomments = function () {
     let children = socialComments.children;
     for (let i = children.length - 1; i >= 0; i--) {
@@ -27,17 +29,15 @@
   };
   clearСomments();
 
-  // Множим блоки с комминтами в зависимости от их количества
   let sourceСomments = [];
+  let sourceСommentsCopy = [];
   let modul = 0;
   const photoСomments = function () {
-    // Переносит элементы одного массива в другой
-    let bankComments = sourceСomments.splice(-5);
+    let bankComments = sourceСommentsCopy.splice(0, 5);
 
-    // Данная переменная выводит на страницу количество показанных комментариев
     modul = modul + bankComments.length;
     socialCommentCount.querySelector('.comments-count-here').textContent = modul;
-    if (sourceСomments.length === 0) {
+    if (sourceСommentsCopy.length === 0) {
       buttonCommentsLoader.classList.add('hidden');
     }
 
@@ -51,7 +51,11 @@
     }
   };
 
-  // Открытие попап выбранной фотографии для просмотра в увеличенном формате
+  const copyingArray = function () {
+    sourceСommentsCopy = sourceСomments.slice();
+    photoСomments();
+  };
+
   let openPopapBigPicture = function () {
     bigPicture.classList.remove('hidden');
     document.body.classList.add('modal-open');
@@ -60,20 +64,21 @@
     buttonCommentsLoader.addEventListener('click', photoСomments);
   };
 
-  // Поиск совпадения элемента в общей коллекции
   const searchElement = function (selectDom) {
     let choice = null;
     choice = selectDom.src.match(/photos\/[0-9]+.jpg/g);
     window.endCollections.filter(function (element) {
       if (element.url === choice[0]) {
         socialCommentCount.querySelector('.comments-count').textContent = element.comments.length;
+        likesCount.textContent = element.likes;
+        socialPicture.src = element.url;
+        socialCaption.textContent = element.description;
         sourceСomments = element.comments;
-        photoСomments();
+        copyingArray();
       }
     });
   };
 
-  // Делегирование фото при всплытии на большой формат
   let onImageChangeClic = function (evt) {
     if (evt.target && evt.target.matches('img[class="picture__img"]')) {
       openPopapBigPicture();
@@ -82,7 +87,6 @@
     }
   };
 
-  // Добавляем фото на большой формат с помощью клавы Enter
   let onImageChangeEnt = function (evt) {
     if (evt.keyCode === 13) {
       for (let i = 0; i < window.pictures.length; i++) {
@@ -100,7 +104,6 @@
   picturesBlock.addEventListener('keydown', onImageChangeEnt);
   picturesBlock.addEventListener('click', onImageChangeClic);
 
-  // Закрытие попап увеличенного просмотра изображения
   let buttonBigPictureCancel = bigPicture.querySelector('.big-picture__cancel');
 
   let onPopapCloseESC = function (evt) {

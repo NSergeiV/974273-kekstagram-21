@@ -7,12 +7,10 @@
     let input = evt.target;
     let arr2 = input.value.split('#');
 
-    // Перебираем и ищим заданный элемент
     let countingSymbols = function (symbol) {
       return input.value.match(symbol);
     };
 
-    // Создаем массив и разделяем на хеш-теги для проверки валидации
     let shortArrayHashtags = function (shortHashTag) {
 
       let re = shortHashTag;
@@ -39,8 +37,6 @@
       return option;
     };
 
-    // Проверяет в массиве каждый хеш-тег на максимальное количество символов
-
     let longArrayHashtags = function (longHashTag) {
       let value = true;
       for (let b = 1; b < arr2.length; b++) {
@@ -53,7 +49,6 @@
       return value;
     };
 
-    // Это поиск похожих хеш-тегов
     let cloneArrayHashtags = function () {
       let option = true;
       for (let c = 1; c < arr2.length; c++) {
@@ -120,8 +115,6 @@
       input.style.outlineColor = 'highlight';
     }
   });
-
-  // Проверка ввода в поле комментарии
 
   window.commentFoImage.addEventListener('input', function (evt) {
     let input = evt.target;
