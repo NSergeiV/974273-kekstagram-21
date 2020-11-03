@@ -3,7 +3,6 @@
 // Создание DOM элемента и наполнение блока DOM элементами.
 
 (function () {
-  // const MAX_PHOTOS_COUNT = 25;
   let similarWizardTemplate = document.querySelector('#picture').content.querySelector('.picture');
   window.setupPictureList = document.querySelector('.pictures');
 

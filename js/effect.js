@@ -22,8 +22,6 @@
 
   effectLevel.classList.add('hidden');
 
-  // Функция переключения эффектов
-
   let onEffectChange = function (evt) {
     if (evt.target && evt.target.matches('input[type="radio"]')) {
       window.imgUploadPreview.querySelector('img').classList.remove(window.className);
@@ -42,13 +40,9 @@
     }
   };
 
-  // Запускаем обработчик выбора эффекта
   effectsList.addEventListener('change', onEffectChange);
 
-  // Запускаем функцию слайдера для изменения эффекта
   window.slaider(effectLevelPin, effectLevelLine, effectLevelDepth);
-
-  // Функция измененя масштаба изображения
 
   let imgUploadScale = window.imgUploadOverlay.querySelector('.img-upload__scale');
   let scaleControlSmaller = imgUploadScale.querySelector('.scale__control--smaller');

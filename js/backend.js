@@ -1,7 +1,6 @@
 'use strict';
 
 // Модуль загрузки коллекции фотографий с сервера
-
 (function () {
   const TIMEOUT_IN_MS = 10000;
 
