@@ -3,7 +3,7 @@
 // Слайдер
 
 (function () {
-  window.slaider = function (objectPin, object, objectLine) {
+  window.slider = function (objectPin, object, objectLine) {
     objectPin.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
       let startCoords = {

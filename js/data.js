@@ -11,16 +11,16 @@
   window.creationArray = function (numberLength, numberMax) {
     let arrayNew = [];
     while (arrayNew.length < numberLength) {
-      let randomNamber = generateNumber(1, numberMax);
+      let randomNumber = generateNumber(1, numberMax);
       let found = false;
       for (let i = 0; i < arrayNew.length; i++) {
-        if (arrayNew[i] === randomNamber) {
+        if (arrayNew[i] === randomNumber) {
           found = true;
           break;
         }
       }
       if (!found) {
-        arrayNew[arrayNew.length] = randomNamber;
+        arrayNew[arrayNew.length] = randomNumber;
       }
     }
     return arrayNew;

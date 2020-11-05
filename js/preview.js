@@ -20,24 +20,24 @@
 
   let socialCommentItem = socialComments.querySelector('.social__comment').cloneNode(true);
 
-  const clearСomments = function () {
+  const clearComments = function () {
     let children = socialComments.children;
     for (let i = children.length - 1; i >= 0; i--) {
       var child = children[i];
       child.parentElement.removeChild(child);
     }
   };
-  clearСomments();
+  clearComments();
 
-  let sourceСomments = [];
-  let sourceСommentsCopy = [];
+  let sourceComments = [];
+  let sourceCommentsCopy = [];
   let modul = 0;
-  const photoСomments = function () {
-    let bankComments = sourceСommentsCopy.splice(0, 5);
+  const photoComments = function () {
+    let bankComments = sourceCommentsCopy.splice(0, 5);
 
     modul = modul + bankComments.length;
     socialCommentCount.querySelector('.comments-count-here').textContent = modul;
-    if (sourceСommentsCopy.length === 0) {
+    if (sourceCommentsCopy.length === 0) {
       buttonCommentsLoader.classList.add('hidden');
     }
 
@@ -52,8 +52,8 @@
   };
 
   const copyingArray = function () {
-    sourceСommentsCopy = sourceСomments.slice();
-    photoСomments();
+    sourceCommentsCopy = sourceComments.slice();
+    photoComments();
   };
 
   let openPopapBigPicture = function () {
@@ -61,7 +61,7 @@
     document.body.classList.add('modal-open');
     buttonBigPictureCancel.addEventListener('click', closePopapBigPicture);
     document.addEventListener('keydown', onPopapCloseESC);
-    buttonCommentsLoader.addEventListener('click', photoСomments);
+    buttonCommentsLoader.addEventListener('click', photoComments);
   };
 
   const searchElement = function (selectDom) {
@@ -73,7 +73,7 @@
         likesCount.textContent = element.likes;
         socialPicture.src = element.url;
         socialCaption.textContent = element.description;
-        sourceСomments = element.comments;
+        sourceComments = element.comments;
         copyingArray();
       }
     });
@@ -114,7 +114,7 @@
 
   let closePopapBigPicture = function () {
     bigPicture.classList.add('hidden');
-    clearСomments();
+    clearComments();
     modul = 0;
     buttonCommentsLoader.classList.remove('hidden');
     document.body.classList.remove('modal-open');

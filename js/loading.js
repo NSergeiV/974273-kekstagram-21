@@ -14,7 +14,7 @@
   window.commentFoImage = commentFoImage;
   window.imgUploadOverlay = imgUploadOverlay;
 
-  let onPopapImgUploadEscClose = function (evt) {
+  let onPopupImgUploadEscClose = function (evt) {
     if (evt.keyCode === window.KODE_ESC) {
       if (hashtagFoImage === document.activeElement) {
         hashtagFoImage.style.outlineColor = 'red';
@@ -41,7 +41,7 @@
   let openPopapImgUpload = function () {
     imgUploadOverlay.classList.remove('hidden');
     document.body.classList.add('modal-open');
-    document.addEventListener('keydown', onPopapImgUploadEscClose);
+    document.addEventListener('keydown', onPopupImgUploadEscClose);
     document.addEventListener('click', onInputColorReset);
     window.effectLevel.classList.add('hidden');
     window.effectLevelPin.style.left = 100 + '%';
@@ -58,13 +58,14 @@
     window.imgUploadPreview.querySelector('img').style.filter = '';
     document.body.classList.remove('modal-open');
     document.querySelector('input[name="filename"]').value = null;
-    document.removeEventListener('keydown', onPopapImgUploadEscClose);
+    document.removeEventListener('keydown', onPopupImgUploadEscClose);
     document.removeEventListener('click', onInputColorReset);
   };
 
   window.closePopapImgUpload = closePopapImgUpload;
 
   uploadFile.addEventListener('change', function () {
+    window.previewFoto(uploadFile);
     openPopapImgUpload();
   });
 
@@ -74,9 +75,9 @@
 
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.backend.save(new FormData(form), function () {
+    window.backend.save(function () {
       closePopapImgUpload();
       window.popapTemplate('#success', '.success', '.success__button');
-    }, window.pushErrorHandler);
+    }, window.pushErrorHandler, new FormData(form));
   });
 })();

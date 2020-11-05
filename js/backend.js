@@ -7,55 +7,48 @@
   const StatusCode = {
     OK: 200
   };
+
   window.backend = {
-    load: function (onLoad, onError) {
+    requestServer: function (onLoad, onError, data) {
       let xhr = new XMLHttpRequest();
-      let URL = 'https://21.javascript.pages.academy/kekstagram/data';
+      let URL;
+      URL = (data) ? 'https://21.javascript.pages.academy/kekstagram' : 'https://21.javascript.pages.academy/kekstagram/data';
       xhr.responseType = 'json';
-
       xhr.addEventListener('load', function () {
         if (xhr.status === StatusCode.OK) {
           onLoad(xhr.response);
         } else {
-          onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+          if (data) {
+            onError();
+          } else {
+            onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+          }
         }
       });
-
       xhr.addEventListener('error', function () {
         onError('Произошла ошибка соединения с сервером');
       });
       xhr.addEventListener('timeout', function () {
-        onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+        if (data) {
+          onError('Отправка данных не выполнена, долгое ожидание более ' + xhr.timeout + 'мс');
+        } else {
+          onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+        }
       });
-
       xhr.timeout = TIMEOUT_IN_MS;
-
-      xhr.open('GET', URL);
-      xhr.send();
+      if (data) {
+        xhr.open('POST', URL);
+        xhr.send(data);
+      } else {
+        xhr.open('GET', URL);
+        xhr.send();
+      }
     },
-    save: function (data, onLoad, onError) {
-      let xhr = new XMLHttpRequest();
-      let URL = 'https://21.javascript.pages.academy/kekstagram';
-      xhr.responseType = 'json';
-
-      xhr.addEventListener('load', function () {
-        if (xhr.status === StatusCode.OK) {
-          onLoad(xhr.response);
-        } else {
-          onError();
-        }
-      });
-      xhr.addEventListener('error', function () {
-        onError('Произошла ошибка соединения с сервером');
-      });
-      xhr.addEventListener('timeout', function () {
-        onError('Отправка данных не выполнена, долгое ожидание более ' + xhr.timeout + 'мс');
-      });
-
-      xhr.timeout = TIMEOUT_IN_MS; // 10s
-
-      xhr.open('POST', URL);
-      xhr.send(data);
+    load: function (onLoad, onError) {
+      this.requestServer(onLoad, onError);
+    },
+    save: function (onLoad, onError, data) {
+      this.requestServer(onLoad, onError, data);
     }
   };
 })();

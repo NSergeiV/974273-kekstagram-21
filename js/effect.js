@@ -42,7 +42,7 @@
 
   effectsList.addEventListener('change', onEffectChange);
 
-  window.slaider(effectLevelPin, effectLevelLine, effectLevelDepth);
+  window.slider(effectLevelPin, effectLevelLine, effectLevelDepth);
 
   let imgUploadScale = window.imgUploadOverlay.querySelector('.img-upload__scale');
   let scaleControlSmaller = imgUploadScale.querySelector('.scale__control--smaller');

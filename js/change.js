@@ -10,19 +10,18 @@
       {nameKl: 'effects__preview--phobos', effectLevel: 'blur', calculated: 3 / 100, unit: 'px'},
       {nameKl: 'effects__preview--heat', effectLevel: 'brightness', calculated: 2 / 100, unit: ''}];
 
-    let seqrchCopy = function (copyClassName) {
-      let searchItem = arrayClass.find(function (textClass) {
+    let searchCopy = function (copyClassName) {
+      return arrayClass.find(function (textClass) {
         return textClass.nameKl === copyClassName;
       });
-      return searchItem;
     };
 
     document.querySelector('input[name="effect-level"]').value = percent;
 
     if (window.className === 'effects__preview--heat') {
-      window.imgUploadPreview.querySelector('img').style.filter = seqrchCopy(window.className).effectLevel + '(' + ((seqrchCopy(window.className).calculated * percent) + 1) + seqrchCopy(window.className).unit + ')';
+      window.imgUploadPreview.querySelector('img').style.filter = searchCopy(window.className).effectLevel + '(' + ((searchCopy(window.className).calculated * percent) + 1) + searchCopy(window.className).unit + ')';
     } else {
-      window.imgUploadPreview.querySelector('img').style.filter = seqrchCopy(window.className).effectLevel + '(' + (seqrchCopy(window.className).calculated * percent) + seqrchCopy(window.className).unit + ')';
+      window.imgUploadPreview.querySelector('img').style.filter = searchCopy(window.className).effectLevel + '(' + (searchCopy(window.className).calculated * percent) + searchCopy(window.className).unit + ')';
     }
   };
 })();
