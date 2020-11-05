@@ -5,7 +5,7 @@
 (function () {
   let uploadFile = document.querySelector('#upload-file');
   let imgUploadOverlay = document.querySelector('.img-upload__overlay');
-  let buttonCancelPopapImgUpload = imgUploadOverlay.querySelector('#upload-cancel');
+  let buttonCancelPopupImgUpload = imgUploadOverlay.querySelector('#upload-cancel');
   let hashtagFoImage = document.querySelector('input[name="hashtags"]');
   let commentFoImage = document.querySelector('textarea[name="description"]');
   let form = document.querySelector('#upload-select-image');
@@ -23,7 +23,7 @@
           commentFoImage.style.outlineColor = 'red';
         } else {
           evt.preventDefault();
-          closePopapImgUpload();
+          closePopupImgUpload();
         }
       }
     }
@@ -38,7 +38,7 @@
     }
   };
 
-  let openPopapImgUpload = function () {
+  let openPopupImgUpload = function () {
     imgUploadOverlay.classList.remove('hidden');
     document.body.classList.add('modal-open');
     document.addEventListener('keydown', onPopupImgUploadEscClose);
@@ -51,7 +51,7 @@
     window.imgUploadPreview.querySelector('img').style.transform = 'scale(' + window.SCALE_FOTO + ')';
   };
 
-  let closePopapImgUpload = function () {
+  let closePopupImgUpload = function () {
     imgUploadOverlay.classList.add('hidden');
     form.reset();
     window.imgUploadPreview.querySelector('img').classList.remove(window.className);
@@ -62,22 +62,22 @@
     document.removeEventListener('click', onInputColorReset);
   };
 
-  window.closePopapImgUpload = closePopapImgUpload;
+  window.closePopupImgUpload = closePopupImgUpload;
 
   uploadFile.addEventListener('change', function () {
     window.previewFoto(uploadFile);
-    openPopapImgUpload();
+    openPopupImgUpload();
   });
 
-  buttonCancelPopapImgUpload.addEventListener('click', function () {
-    closePopapImgUpload();
+  buttonCancelPopupImgUpload.addEventListener('click', function () {
+    closePopupImgUpload();
   });
 
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.backend.save(function () {
-      closePopapImgUpload();
-      window.popapTemplate('#success', '.success', '.success__button');
+      closePopupImgUpload();
+      window.popupTemplate('#success', '.success', '.success__button');
     }, window.pushErrorHandler, new FormData(form));
   });
 })();

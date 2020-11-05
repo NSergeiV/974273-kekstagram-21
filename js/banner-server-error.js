@@ -3,8 +3,8 @@
 // Вывод ошибок сервера на экран
 (function () {
   window.pushErrorHandler = function () {
-    window.closePopapImgUpload();
-    window.popapTemplate('#error', '.error', '.error__button');
+    window.closePopupImgUpload();
+    window.popupTemplate('#error', '.error', '.error__button');
   };
 
   let node = document.createElement('div');

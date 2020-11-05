@@ -56,11 +56,11 @@
     photoComments();
   };
 
-  let openPopapBigPicture = function () {
+  let openPopupBigPicture = function () {
     bigPicture.classList.remove('hidden');
     document.body.classList.add('modal-open');
-    buttonBigPictureCancel.addEventListener('click', closePopapBigPicture);
-    document.addEventListener('keydown', onPopapCloseESC);
+    buttonBigPictureCancel.addEventListener('click', closePopupBigPicture);
+    document.addEventListener('keydown', onPopupCloseESC);
     buttonCommentsLoader.addEventListener('click', photoComments);
   };
 
@@ -81,7 +81,7 @@
 
   let onImageChangeClic = function (evt) {
     if (evt.target && evt.target.matches('img[class="picture__img"]')) {
-      openPopapBigPicture();
+      openPopupBigPicture();
       bigPictureImg.querySelector('img').src = evt.target.src;
       searchElement(evt.target);
     }
@@ -92,7 +92,7 @@
       for (let i = 0; i < window.pictures.length; i++) {
         let picture = window.pictures[i];
         if (picture === document.activeElement) {
-          openPopapBigPicture();
+          openPopupBigPicture();
           bigPictureImg.querySelector('img').src = picture.querySelector('img').src;
           searchElement(picture.querySelector('img'));
           break;
@@ -106,20 +106,20 @@
 
   let buttonBigPictureCancel = bigPicture.querySelector('.big-picture__cancel');
 
-  let onPopapCloseESC = function (evt) {
+  let onPopupCloseESC = function (evt) {
     if (evt.keyCode === KODE_ESC) {
-      closePopapBigPicture();
+      closePopupBigPicture();
     }
   };
 
-  let closePopapBigPicture = function () {
+  let closePopupBigPicture = function () {
     bigPicture.classList.add('hidden');
     clearComments();
     modul = 0;
     buttonCommentsLoader.classList.remove('hidden');
     document.body.classList.remove('modal-open');
-    buttonBigPictureCancel.removeEventListener('click', closePopapBigPicture);
-    document.removeEventListener('keydown', onPopapCloseESC);
+    buttonBigPictureCancel.removeEventListener('click', closePopupBigPicture);
+    document.removeEventListener('keydown', onPopupCloseESC);
   };
 
 })();
